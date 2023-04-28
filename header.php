@@ -38,7 +38,7 @@ if(!isset($_SESSION["auth_user"])){
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin.php">
@@ -96,6 +96,14 @@ if(!isset($_SESSION["auth_user"])){
                         <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
+            </li>
+
+            <!-- Nav Item - Slide -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="slider.php">
+                    <i class="fas fa-fw fa-images"></i>
+                    <span>Slider</span>
+                </a>                
             </li>
 
             <!-- Divider -->
@@ -165,7 +173,7 @@ if(!isset($_SESSION["auth_user"])){
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-secondary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
