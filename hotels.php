@@ -23,30 +23,20 @@ if(isset($_GET["did"])){
 };
 
 if(isset($_POST["updHotel"])){
-    $name=$_POST["upd_name"];
-    $heading=$_POST["upd_heading"];
-    $parag=$_POST["upd_parag"];
-    $imgName=$_FILES["upd_image"]["name"];
-    $tmpfile=$_FILES["upd_image"]["tmp_name"];
-    $path='assets/img/'.time().$imgName;
-    $imgPath='front/'.$path;
-    $uid=$_GET["uid"];
-    $xt=explode('.',$imgName);
-    $type=end($xt);
-    $ext=array('jpg','jpeg','png','jfif');
+    $name=$_POST["updHotelName"];
+    $city=$_POST["updCity"];
+    $rooms=$_POST["updRooms"];    
+    $rating=$_POST["updRating"];
+    $vacRooms=$_POST["updVacRooms"];
+    $roomClass=$_POST["updRoomClass"];
+    $charges=$_POST["updCharges"];
 
-    $query="UPDATE `hotels` SET `htl_name`='$name',`htl_image`='$path',`htl_heading`='$heading',`sli_parag`='$parag' WHERE sli_id=$uid";
-
-    if(in_array($type,$ext)){
+    $query="UPDATE `hotels` SET `htl_name`='$name',`htl_city`='$city',`htl_rating`=$rating,`htl_rooms`=$rooms,`htl_vacant_rooms`=$vacRooms,`htl_room_type`=$roomClass,`htl_room_charges`=$charges WHERE htl_id=$uid;";
     
-        mysqli_query($conn,$query);        
-        move_uploaded_file($tmpfile,$imgPath);
-        echo '<script type="text/javascript">
+    $res=mysqli_query($conn,$query);
+    echo '<script type="text/javascript">
         window.location = "hotels.php";
         </script> ';
-    }else{
-        echo "<script>alert('Invalid File Type.!')</script>";
-    };
 };
 
 if(isset($_POST["AddHotel"])){
@@ -70,53 +60,66 @@ if(isset($_POST["AddHotel"])){
 
         <div class="container"> 
             <?php
-            $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id INNER JOIN slider s ON h.htl_image=s.sli_id;";
-            $res=mysqli_query($conn,$query);
+            
             if(isset($_GET["uid"])){
+                $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id INNER JOIN slider s ON h.htl_image=s.sli_id WHERE htl_id=$uid;";
+            $res=mysqli_query($conn,$query);
+            $dt=mysqli_fetch_assoc($res);
                 echo '<h1 class="h3 mb-2 text-gray-800">Update Hotel Details</h1>
                 <form class="user" method="post">
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="name" value="" name="updHotelName" class="form-control"
+                                <input type="name" value="'.$dt["htl_name"].'" name="updHotelName" class="form-control"
                                     id="exampleInputEmail" aria-describedby="emailHelp"
                                     placeholder="Enter Hotel Name">
                             </div>
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="name" name="updCity" class="form-control"
+                                <input type="name" name="updCity" value="'.$dt["htl_city"].'" class="form-control"
                                     id="exampleInputPassword" placeholder="City">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <select name="updRating" id="" class="py-2 form-control" placeholder="Select Role">
-                                    <option selected value=0>Select Hotel Rating</option>
-                                        <option value="'.$row["rt_id"].'">'.$row["rt_rating"].'</option>
+                                    <option selected value='.$dt["rt_rating"].'>Select Hotel Rating</option>
+                                    ';
+                                    $query="SELECT * FROM rating";
+                                    $res=mysqli_query($conn,$query);
+                                    while($row=mysqli_fetch_assoc($res)){
+                                    echo '<option value="'.$row["rt_id"].'">'.$row["rt_rating"].'</option>';
+                                    };
+                               echo '
                                 </select>
                             </div>
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <select name="updRoomClass" id="" class="py-2 form-control" placeholder="Select Role">
-                                    <option selected value=0>Select Room Type</option>
-                                    <option value="'.$row["class_id"].'">'.$row["class"].'</option>                                                          
+                                    <option selected value='.$dt["class_id"].'>Select Room Type</option>';
+                                            $query="SELECT * FROM classes";
+                                            $res=mysqli_query($conn,$query);
+                                            while($row=mysqli_fetch_assoc($res)){
+                                            echo '<option value="'.$row["class_id"].'">'.$row["class"].'</option>';
+                                            };
+                                        echo '                                                          
                                 </select>
                             </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="name" name="updRooms" class="form-control"
+                                    <input type="name" value="'.$dt["htl_rooms"].'" name="updRooms" class="form-control"
                                         id="exampleInputPassword" placeholder="Total Rooms">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="name" name="updVacRooms" class="form-control"
+                                    <input type="name" value="'.$dt["htl_vacant_rooms"].'" name="updVacRooms" class="form-control"
                                         id="exampleInputPassword" placeholder="Vacant rooms">
                                 </div>
                             </div> 
                             <div class="form-group row">                      
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="number" name="updCharges" class="form-control"
+                                    <input type="number" value="'.$dt["htl_room_charges"].'" name="updCharges" class="form-control"
                                         id="exampleInputPassword" placeholder="Charges">
                                 </div>
                             </div>
-                            <input type="submit" name="updHotel" class="btn btn-dark" value="Add">                                        
+                            <input type="submit" name="updHotel" class="btn btn-warning" value="Update">                                        
                             <hr>
                                             
                 </form>';
@@ -227,7 +230,7 @@ if(isset($_POST["AddHotel"])){
                                                     <th>'.$row["htl_city"].'</th>
                                                     <th><img src="front/'.$row["sli_image"].'" width=100px></td>           
            <th><a class="btn btn-danger" href="hotels.php?did='.$row["htl_id"].'">Delete</a></th>
-           <th><a class="btn btn-warning" href="hotels.php?uid='.$row["htl_id"].'&path='.$row["sli_image"].'">Update</a></th>
+           <th><a class="btn btn-warning" href="hotels.php?uid='.$row["htl_id"].'">Update</a></th>
                                                     </tr>';
                                             };
                                         ?>
