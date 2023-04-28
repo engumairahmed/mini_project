@@ -4,18 +4,14 @@ $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_i
 $res=mysqli_query($conn,$query);
 
 if(isset($_GET["did"])){
-    $id=$_GET["did"];   
-  $delete="DELETE FROM `slider` WHERE sli_id=$id";
-    $query="SELECT * FROM slider WHERE sli_id=$id";
-  $path=mysqli_query($conn,$query);
+  $id=$_GET["did"];   
+  $delete="DELETE FROM `hotels` WHERE htl_id=$id";
+  $query="SELECT * FROM hotels WHERE htl_id=$id";  
   $row=mysqli_fetch_assoc($path);
-
-    file_exists('front/'.$row["sli_image"]);
-  unlink('front/'.$row["sli_image"]);
   mysqli_query($conn,$delete);
   
   echo '<script type="text/javascript">
-        window.location = "slider.php";
+        window.location = "hotels.php";
         </script> ';    
   };
 
@@ -26,7 +22,7 @@ if(isset($_GET["did"])){
     $dt=mysqli_fetch_assoc($res);
 };
 
-if(isset($_POST["updSlide"])){
+if(isset($_POST["updHotel"])){
     $name=$_POST["upd_name"];
     $heading=$_POST["upd_heading"];
     $parag=$_POST["upd_parag"];
@@ -39,14 +35,14 @@ if(isset($_POST["updSlide"])){
     $type=end($xt);
     $ext=array('jpg','jpeg','png','jfif');
 
-    $query="UPDATE `slider` SET `sli_name`='$name',`sli_image`='$path',`sli_heading`='$heading',`sli_parag`='$parag' WHERE sli_id=$uid";
+    $query="UPDATE `hotels` SET `htl_name`='$name',`htl_image`='$path',`htl_heading`='$heading',`sli_parag`='$parag' WHERE sli_id=$uid";
 
     if(in_array($type,$ext)){
     
         mysqli_query($conn,$query);        
         move_uploaded_file($tmpfile,$imgPath);
         echo '<script type="text/javascript">
-        window.location = "slider.php";
+        window.location = "hotels.php";
         </script> ';
     }else{
         echo "<script>alert('Invalid File Type.!')</script>";
@@ -77,28 +73,28 @@ if(isset($_POST["AddHotel"])){
             $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id INNER JOIN slider s ON h.htl_image=s.sli_id;";
             $res=mysqli_query($conn,$query);
             if(isset($_GET["uid"])){
-                echo '<h1 class="h3 mb-2 text-gray-800">Add Hotel</h1>
+                echo '<h1 class="h3 mb-2 text-gray-800">Update Hotel Details</h1>
                 <form class="user" method="post">
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="name" value="" name="hotelName" class="form-control"
+                                <input type="name" value="" name="updHotelName" class="form-control"
                                     id="exampleInputEmail" aria-describedby="emailHelp"
                                     placeholder="Enter Hotel Name">
                             </div>
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="name" name="city" class="form-control"
+                                <input type="name" name="updCity" class="form-control"
                                     id="exampleInputPassword" placeholder="City">
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <select name="rating" id="" class="py-2 form-control" placeholder="Select Role">
+                                <select name="updRating" id="" class="py-2 form-control" placeholder="Select Role">
                                     <option selected value=0>Select Hotel Rating</option>
                                         <option value="'.$row["rt_id"].'">'.$row["rt_rating"].'</option>
                                 </select>
                             </div>
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <select name="roomClass" id="" class="py-2 form-control" placeholder="Select Role">
+                                <select name="updRoomClass" id="" class="py-2 form-control" placeholder="Select Role">
                                     <option selected value=0>Select Room Type</option>
                                     <option value="'.$row["class_id"].'">'.$row["class"].'</option>                                                          
                                 </select>
@@ -106,25 +102,21 @@ if(isset($_POST["AddHotel"])){
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="name" name="rooms" class="form-control"
+                                    <input type="name" name="updRooms" class="form-control"
                                         id="exampleInputPassword" placeholder="Total Rooms">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="name" name="vacRooms" class="form-control"
+                                    <input type="name" name="updVacRooms" class="form-control"
                                         id="exampleInputPassword" placeholder="Vacant rooms">
                                 </div>
                             </div> 
                             <div class="form-group row">                      
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="number" name="charges" class="form-control"
-                                        id="exampleInputPassword" placeholder="Charges">
-                                </div>
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="number" name="charges" class="form-control"
+                                    <input type="number" name="updCharges" class="form-control"
                                         id="exampleInputPassword" placeholder="Charges">
                                 </div>
                             </div>
-                            <input type="submit" name="hotelAdd" class="btn btn-dark" value="Add">                                        
+                            <input type="submit" name="updHotel" class="btn btn-dark" value="Add">                                        
                             <hr>
                                             
                 </form>';
@@ -184,7 +176,7 @@ if(isset($_POST["AddHotel"])){
                                         id="exampleInputPassword" placeholder="Charges">
                                 </div>
                             </div>
-                            <input type="submit" name="hotelAdd" class="btn btn-dark" value="Add">                                        
+                            <input type="submit" name="addHotel" class="btn btn-dark" value="Add">                                        
                             <hr>
                                             
                 </form>';
