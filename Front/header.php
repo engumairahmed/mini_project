@@ -1,5 +1,27 @@
 <?php
 $conn=mysqli_connect("localhost","root","","db_ktg");
+session_start();
+if(isset($_POST["signIn"])){
+    $email=$_POST["email"];
+    $pass=$_POST["password"];
+    $query="SELECT * FROM users where email='$email'";
+    $res=mysqli_query($conn,$query);
+    if(mysqli_num_rows($res)){
+        $row=mysqli_fetch_assoc($res);
+        if(password_verify($pass,$row["password"])){
+            if($row["status"]!="4"){
+                    session_start();
+                    $_SESSION["auth_user"]=$row;                    
+            } else{
+                echo "<script>alert('Account Disabled please contact admin.')</script>";
+            };
+        } else{
+            echo "<script>alert('Wrong password')</script>";
+        };
+    } else{
+        echo "<script>alert('No user registered with $email')</script>";
+    };
+};
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,13 +54,6 @@ $conn=mysqli_connect("localhost","root","","db_ktg");
   <link href="assets/css/variables.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: ZenBlog
-  * Updated: Mar 10 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
-  * Author: BootstrapMade.com
-  * License: https:///bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -58,34 +73,36 @@ $conn=mysqli_connect("localhost","root","","db_ktg");
           <li><a href="index.php">Home</a></li>
           <li class="dropdown"><a href="Information.php"><span>Information</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
             <ul>
-              <li><a href="hotels.php">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+              <li><a href="hotels.php">Hotels</a></li>
+              <li><a href="#">Resorts</a></li>
+              <li><a href="#">Restaurants</a></li>
+              <li><a href="#">Traveling</a></li>
+              <li><a href="#">Tourist Spots</a></li>
             </ul>
           </li>
 
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="about.php">About</a></li>
+          <li><a href="contact.php">Contact</a></li>
         </ul>
       </nav><!-- .navbar -->
 
       <div class="position-relative">
-        <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
-        <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
-        <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
 
         <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
-        <i class="bi bi-list mobile-nav-toggle"></i>
+        
+<?php
+if(isset($_SESSION["auth_user"])){
+  $name=$_SESSION["auth_user"]["name"];
+  echo ' <button class="btn dropdown-toggle" type="button" id="loggedIn  " data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-circle"></span> '.$name.'</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+<li><a class="dropdown-item" href="logout.php">Log-Out</a></li>
+</ul>';
+} else{
+  echo '<a class="mx-2" data-bs-toggle="modal" data-bs-target="#signInModal"><span class="bi bi-person-circle"></span></a>';
+}
+?>
+        
+        <i class="bi bi-list mobile-nav-toggle"></i>     
 
         <!-- ======= Search Form ======= -->
         <div class="search-form-wrap js-search-form-wrap">
@@ -96,8 +113,36 @@ $conn=mysqli_connect("localhost","root","","db_ktg");
           </form>
         </div><!-- End Search Form -->
 
+        <!-- Button trigger modal -->
+
+
+
       </div>
 
     </div>
 
   </header><!-- End Header -->
+
+  <!-- Login Modal -->
+          <div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="exampleModalLabel"     aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="" method="post">
+                    <input type="email" name="email" placeholder="Email" class="form-control mt-2">
+                    <input type="password" name="password" placeholder="Password" class="form-control mt-2">
+                    <div class="modal-footer">
+                    <input type="submit" value="Sign-In" class="mx-auto btn btn-outline-dark mt-2" data-bs-dismiss="modal" name="signIn">
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <a href="register.php"p class="fs-5">Create an account!</a>
+                </div>
+              </div>
+            </div>
+          </div>

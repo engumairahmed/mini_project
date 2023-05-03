@@ -6,82 +6,28 @@
 
         <div class="row g-5">
           <div class="col-lg-4">
-            <h3 class="footer-heading">About ZenBlog</h3>
+            <h3 class="footer-heading">About KernalTravelGuide</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ab, perspiciatis beatae autem deleniti voluptate nulla a dolores, exercitationem eveniet libero laudantium recusandae officiis qui aliquid blanditiis omnis quae. Explicabo?</p>
-            <p><a href="about.html" class="footer-link-more">Learn More</a></p>
+            <p><a href="about.php" class="footer-link-more">Learn More</a></p>
           </div>
           <div class="col-6 col-lg-2">
             <h3 class="footer-heading">Navigation</h3>
             <ul class="footer-links list-unstyled">
-              <li><a href="index.html"><i class="bi bi-chevron-right"></i> Home</a></li>
-              <li><a href="index.html"><i class="bi bi-chevron-right"></i> Blog</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Categories</a></li>
-              <li><a href="single-post.html"><i class="bi bi-chevron-right"></i> Single Post</a></li>
-              <li><a href="about.html"><i class="bi bi-chevron-right"></i> About us</a></li>
-              <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Contact</a></li>
+              <li><a href="index.php"><i class="bi bi-chevron-right"></i> Home</a></li>
+              <li><a href="hotels.php"><i class="bi bi-chevron-right"></i> Information</a></li>
+              <li><a href="about.php"><i class="bi bi-chevron-right"></i> About us</a></li>
+              <li><a href="contact.php"><i class="bi bi-chevron-right"></i> Contact</a></li>
             </ul>
           </div>
           <div class="col-6 col-lg-2">
             <h3 class="footer-heading">Categories</h3>
             <ul class="footer-links list-unstyled">
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Business</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Culture</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Sport</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Food</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Politics</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Celebrity</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Startups</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Travel</a></li>
-
+                <li><a href="hotels.php"><i class="bi bi-chevron-right"></i> Hotels</a></li>
+                <li><a href="resorts.php"><i class="bi bi-chevron-right"></i> Resorts</a></li>
+                <li><a href="restaurants.php"><i class="bi bi-chevron-right"></i> Restaurants</a></li>
+                <li><a href="travel.php"><i class="bi bi-chevron-right"></i> Travel</a></li>
+                <li><a href="tour.php"><i class="bi bi-chevron-right"></i> Toursit Spots</a></li> 
             </ul>
-          </div>
-
-          <div class="col-lg-4">
-            <h3 class="footer-heading">Recent Posts</h3>
-
-            <ul class="footer-links footer-blog-entry list-unstyled">
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-1.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>5 Great Startup Tips for Female Founders</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-2.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-3.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-4.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
-                    <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
-                  </div>
-                </a>
-              </li>
-
-            </ul>
-
           </div>
         </div>
       </div>
@@ -93,7 +39,7 @@
         <div class="row justify-content-between">
           <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
             <div class="copyright">
-              © Copyright <strong><span>ABC</span></strong>. All Rights Reserved
+              © Copyright <strong><span>Kernal Travel Guide</span></strong>. All Rights Reserved
             </div>
           </div>
 
@@ -124,9 +70,10 @@
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
+
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
+ 
 </body>
 
 </html>

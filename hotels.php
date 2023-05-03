@@ -6,8 +6,6 @@ $res=mysqli_query($conn,$query);
 if(isset($_GET["did"])){
   $id=$_GET["did"];   
   $delete="DELETE FROM `hotels` WHERE htl_id=$id";
-  $query="SELECT * FROM hotels WHERE htl_id=$id";  
-  $row=mysqli_fetch_assoc($path);
   mysqli_query($conn,$delete);
   
   echo '<script type="text/javascript">
@@ -39,7 +37,7 @@ if(isset($_POST["updHotel"])){
         </script> ';
 };
 
-if(isset($_POST["AddHotel"])){
+if(isset($_POST["addHotel"])){
     $name=$_POST["hotelName"];
     $rooms=$_POST["rooms"];
     $city=$_POST["city"];
@@ -47,12 +45,24 @@ if(isset($_POST["AddHotel"])){
     $vacRooms=$_POST["vacRooms"];
     $roomClass=$_POST["roomClass"];
     $charges=$_POST["charges"];
+    $imgName=$_FILES["image"]["name"];
+    $tmpfile=$_FILES["image"]["tmp_name"];
+    $path='assets/img/'.time().$imgName;
+    $imgPath='front/'.$path;
+    $xt=explode('.',$imgName);
+    $type=end($xt);
+    $ext=array('jpg','jpeg','png','jfif');
     // print_r($_POST);
     if($roomClass==="0"){
-        echo "<script>alert('Select Room Class!')</script>";
-    } else{
-    $query="INSERT INTO hotels VALUES (NULL,'$name','$city',$rating,$rooms,$vacRooms,$roomClass,$charges)";
-    mysqli_query($conn,$query);
+        echo "<script>alert('Select Room Class!')</script>";        
+    } else{        
+        if(in_array($type,$ext)){        
+            move_uploaded_file($tmpfile,$imgPath);
+            $query="INSERT INTO hotels VALUES (NULL,'$name','$city',$rating,$rooms,$vacRooms,$roomClass,$charges,'$path')";
+            mysqli_query($conn,$query);
+        }else{
+            echo "<script>alert('Invalid File Type.!')</script>";
+        };    
     };
 };
 
@@ -62,11 +72,11 @@ if(isset($_POST["AddHotel"])){
             <?php
             
             if(isset($_GET["uid"])){
-                $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id INNER JOIN slider s ON h.htl_image=s.sli_id WHERE htl_id=$uid;";
+                $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id WHERE htl_id=$uid;";
             $res=mysqli_query($conn,$query);
             $dt=mysqli_fetch_assoc($res);
                 echo '<h1 class="h3 mb-2 text-gray-800">Update Hotel Details</h1>
-                <form class="user" method="post">
+                <form class="user" method="post" enctype="multipart/form-data">
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="name" value="'.$dt["htl_name"].'" name="updHotelName" class="form-control"
@@ -125,7 +135,7 @@ if(isset($_POST["AddHotel"])){
                 </form>';
             } else{
                 echo '<h1 class="h3 mb-2 text-gray-800">Add Hotel</h1>
-                <form class="user" method="post">
+                <form class="user" method="post" enctype="multipart/form-data">
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input type="name" name="hotelName" class="form-control"
@@ -178,6 +188,10 @@ if(isset($_POST["AddHotel"])){
                                     <input type="number" name="charges" class="form-control"
                                         id="exampleInputPassword" placeholder="Charges">
                                 </div>
+                                 <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="file" name="image" class="form-control"
+                                        id="exampleInputPassword" placeholder="">
+                                </div>
                             </div>
                             <input type="submit" name="addHotel" class="btn btn-dark" value="Add">                                        
                             <hr>
@@ -218,7 +232,7 @@ if(isset($_POST["AddHotel"])){
                                     </thead>                                    
                                     <tbody>
                                         <?php
-                                        $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id INNER JOIN slider s ON h.htl_image=s.sli_id;";
+                                        $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id;";
                                         $res=mysqli_query($conn,$query);
                                         while($row=mysqli_fetch_assoc($res)){
                                             echo   '<tr><th>'.$row["htl_name"].'</th>
@@ -228,7 +242,7 @@ if(isset($_POST["AddHotel"])){
                                                     <th>'.$row["htl_room_charges"].'</th>
                                                     <th>'.$row["rt_rating"].'</th>
                                                     <th>'.$row["htl_city"].'</th>
-                                                    <th><img src="front/'.$row["sli_image"].'" width=100px></td>           
+                                                    <th><img src="front/'.$row["htl_image"].'" width=100px></td>           
            <th><a class="btn btn-danger" href="hotels.php?did='.$row["htl_id"].'">Delete</a></th>
            <th><a class="btn btn-warning" href="hotels.php?uid='.$row["htl_id"].'">Update</a></th>
                                                     </tr>';
