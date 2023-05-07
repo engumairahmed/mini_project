@@ -4,8 +4,8 @@ require "header.php";
 $query="SELECT * FROM slider";
 $res=mysqli_query($conn,$query);
 
-if(isset($_GET["did"])){
-    $id=$_GET["did"];   
+if(isset($_POST["del_btn"])){
+    $id=$_POST["del_id"];   
   $delete="DELETE FROM `slider` WHERE sli_id=$id";
     $query="SELECT * FROM slider WHERE sli_id=$id";
   $path=mysqli_query($conn,$query);
@@ -140,7 +140,7 @@ if(isset($_POST["addSlide"])){
                                 <th>'.$row["sli_heading"].'</th>
                                 <th>'.$row["sli_parag"].'</th>
                                 <th><img src="front/'.$row["sli_image"].'" width=100px></td>           
-           <th><a class="btn btn-danger" href="slider.php?did='.$row["sli_id"].'">Delete</a></th>
+           <th><a class="btn btn-danger delBtn" href="#" data-id="'.$row["sli_id"].'" data-toggle="modal" data-target="#DelConfirmModal">Delete</a></th>
            <th><a class="btn btn-warning" href="slider.php?uid='.$row["sli_id"].'&path='.$row["sli_image"].'">Update</a></th>';
                         };
                     ?>

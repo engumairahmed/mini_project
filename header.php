@@ -1,10 +1,10 @@
 <?php
 $conn=mysqli_connect("localhost","root","","db_ktg");
 session_start();
-if(!isset($_SESSION["auth_user"])){    
+if(!isset($_SESSION["auth_admin"])){    
     header("location:login.php");
 } else{
-    $role=$_SESSION["auth_user"]["role"];
+    $role=$_SESSION["auth_admin"]["role"];
     if($role==1){
         header("location:login.php");
     };
@@ -36,6 +36,9 @@ if(!isset($_SESSION["auth_user"])){
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!---jQuery CDN--->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
 </head>
 
@@ -130,7 +133,7 @@ if(!isset($_SESSION["auth_user"])){
             </li>
 
             <?php
-                $role=$_SESSION["auth_user"]["role"];
+                $role=$_SESSION["auth_admin"]["role"];
                 if($role==3){
                     echo'<!-- Divider -->
                     <hr class="sidebar-divider">
@@ -214,7 +217,7 @@ if(!isset($_SESSION["auth_user"])){
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?php 
-                                    echo $_SESSION["auth_user"]["name"];
+                                    echo $_SESSION["auth_admin"]["name"];
                                     ?>
                                 </span>
                                 <img class="img-profile rounded-circle"

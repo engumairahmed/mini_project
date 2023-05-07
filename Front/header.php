@@ -54,6 +54,9 @@ if(isset($_POST["signIn"])){
   <link href="assets/css/variables.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
 
+  <!---- jQuery CDN ---->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -95,7 +98,7 @@ if(isset($_SESSION["auth_user"])){
   $name=$_SESSION["auth_user"]["name"];
   echo ' <button class="btn dropdown-toggle" type="button" id="loggedIn  " data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-circle"></span> '.$name.'</button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-<li><a class="dropdown-item" href="logout.php">Log-Out</a></li>
+<li><a class="dropdown-item mx-2" href="#" data-bs-toggle="modal" data-bs-target="#LogoutModal">Log-Out</a></li>
 </ul>';
 } else{
   echo '<a class="mx-2" data-bs-toggle="modal" data-bs-target="#signInModal"><span class="bi bi-person-circle"></span></a>';
@@ -142,6 +145,25 @@ if(isset($_SESSION["auth_user"])){
                 </div>
                 <div class="modal-footer">
                   <a href="register.php"p class="fs-5">Create an account!</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- Log-Out Modal -->
+        <div class="modal fade" id="LogoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                Select "Logout" below if you are ready to end your current session.                  
+                </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
               </div>
             </div>

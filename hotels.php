@@ -3,9 +3,11 @@ require_once "header.php";
 $query="SELECT * FROM hotels h INNER JOIN classes c ON h.htl_room_type=c.class_id INNER JOIN rating r ON h.htl_rating=r.rt_id;";
 $res=mysqli_query($conn,$query);
 
-if(isset($_GET["did"])){
-  $id=$_GET["did"];   
-  $delete="DELETE FROM `hotels` WHERE htl_id=$id";
+if(isset($_POST["del_btn"])){
+  $id=$_POST["del_id"];
+//   print_r($_POST);
+print_r($_POST["del_id"]);
+  $delete="DELETE FROM `hotels` WHERE htl_id='$id'";
   mysqli_query($conn,$delete);
   
   echo '<script type="text/javascript">
@@ -66,7 +68,7 @@ if(isset($_POST["addHotel"])){
     };
 };
 
-?>
+?>    
 
         <div class="container"> 
             <?php
@@ -207,7 +209,7 @@ if(isset($_POST["addHotel"])){
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">View Hotels</h1>
-                    
+                  
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -226,7 +228,7 @@ if(isset($_POST["addHotel"])){
                                             <th>Rating</th>
                                             <th>City</th>
                                             <th>Image</th>
-                                            <th>Delet</th>
+                                            <th>Delete</th>
                                             <th>Update</th>
                                         </tr>
                                     </thead>                                    
@@ -243,7 +245,7 @@ if(isset($_POST["addHotel"])){
                                                     <th>'.$row["rt_rating"].'</th>
                                                     <th>'.$row["htl_city"].'</th>
                                                     <th><img src="front/'.$row["htl_image"].'" width=100px></td>           
-           <th><a class="btn btn-danger" href="hotels.php?did='.$row["htl_id"].'">Delete</a></th>
+           <th><a class="btn btn-danger delBtn" href="#" data-id="'.$row["htl_id"].'" data-toggle="modal" data-target="#DelConfirmModal">Delete</a></th>
            <th><a class="btn btn-warning" href="hotels.php?uid='.$row["htl_id"].'">Update</a></th>
                                                     </tr>';
                                             };

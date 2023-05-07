@@ -18,11 +18,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                     } else if($row["role"]=="2"){
                         session_start();
                         header("location:admin.php"); 
-                        $_SESSION["auth_user"]=$row;
+                        $_SESSION["auth_admin"]=$row;
                     }else if($row["role"]=="3"){
                         session_start();
                         header("location:HR.php"); 
-                        $_SESSION["auth_user"]=$row;
+                        $_SESSION["auth_admin"]=$row;
                     };
             } else{
                 echo "<script>alert('Account Disabled please contact HR')</script>";

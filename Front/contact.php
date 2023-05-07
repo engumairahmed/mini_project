@@ -24,9 +24,9 @@ if(isset($_POST["queryMessage"])){
 if(isset($_POST["booking"])){    
     if(!isset($_SESSION["auth_user"])){
         echo "<script>
-        $(document).ready(funtion(){
+        $(document).ready(function(){
         $('#signInModal').modal('show');
-        };
+        });
         </script>";
         } else{   
         $name=$_SESSION["auth_user"]["id"];
