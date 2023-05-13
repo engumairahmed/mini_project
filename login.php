@@ -10,18 +10,22 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     if(mysqli_num_rows($res)){
         $row=mysqli_fetch_assoc($res);
         if(password_verify($pass,$row["password"])){
-            if($row["role"]=="1"){
-            session_start();
-            header("location:user.php");
-            $_SESSION["auth_user"]=$row;
-            } else if($row["role"]=="2"){
-                session_start();
-                header("location:admin.php"); 
-                $_SESSION["auth_user"]=$row;
-            }else if($row["role"]=="3"){
-                session_start();
-                header("location:HR.php"); 
-                $_SESSION["auth_user"]=$row;
+            if($row["status"]!="4"){
+                if($row["role"]=="1"){
+                    session_start();
+                    header("location:front/index.php");
+                    $_SESSION["auth_user"]=$row;
+                    } else if($row["role"]=="2"){
+                        session_start();
+                        header("location:admin.php"); 
+                        $_SESSION["auth_admin"]=$row;
+                    }else if($row["role"]=="3"){
+                        session_start();
+                        header("location:HR.php"); 
+                        $_SESSION["auth_admin"]=$row;
+                    };
+            } else{
+                echo "<script>alert('Account Disabled please contact HR')</script>";
             };
         } else{
             echo "<script>alert('Wrong password')</script>";
@@ -60,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-dark">
 
     <div class="container">
 
@@ -95,7 +99,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Login">                                        
+                                        <input type="submit" class="btn btn-dark btn-user btn-block" value="Login">                                        
                                         <hr>
                                         
                                     </form>

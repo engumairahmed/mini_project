@@ -1,6 +1,11 @@
-
 <?php
 require_once('header.php');
+$role=$_SESSION["auth_user"]["role"];
+if($role!=3){
+    echo '<script type="text/javascript">
+        window.location = "login.php";
+        </script> ';
+};
 $query="SELECT * FROM users WHERE role!=3";
 $res=mysqli_query($conn,$query);
 if(isset($_GET["email"])){
@@ -15,7 +20,24 @@ if(isset($_GET["email"])){
         $query="UPDATE `users` SET `role` = '1' WHERE `users`.`email` = '$email';";
         mysqli_query($conn,$query);
     };
-    header("location:hr.php");
+    echo '<script type="text/javascript">
+        window.location = "hr.php";
+        </script> ';
+} else if(isset($_GET["id"])){
+    $id=$_GET["id"];
+    $query="SELECT * FROM users WHERE id=$id";    
+    $res=mysqli_query($conn,$query);    
+    $row=mysqli_fetch_assoc($res);
+    if($row["status"]==4){
+        $query="UPDATE `users` SET `status` = '3' WHERE `users`.`id` = '$id';";
+        mysqli_query($conn,$query);
+    } else{
+        $query="UPDATE `users` SET `status` = '4' WHERE `users`.`id` = '$id';";
+        mysqli_query($conn,$query);
+    };
+    echo '<script type="text/javascript">
+        window.location = "hr.php";
+        </script> ';
 };
 ?>
 
@@ -23,12 +45,12 @@ if(isset($_GET["email"])){
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Welcome</h1>
                     
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">User Information</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -40,6 +62,7 @@ if(isset($_GET["email"])){
                                             <th>E-Mail</th>
                                             <th>Role</th>
                                             <th>Switch Role</th>
+                                            <th>Change Status</th>
                                         </tr>
                                     </thead>
                                     <?php
@@ -61,20 +84,16 @@ if(isset($_GET["email"])){
                                             } else{
                                                 echo '<td><a class="btn btn-warning" href="hr.php?email='.$row["email"].'">Make User</a></td>';
                                             };
+                                            if($row["status"]=="4"){
+                                                echo '<td><a class="btn btn-primary" href="hr.php?id='.$row["id"].'">Activate</a></td>';
+                                            } else{
+                                                echo '<td><a class="btn btn-danger" href="hr.php?id='.$row["id"].'">Disable</a></td>';
+                                            };
                                             echo'</tr>
                                         ';
                                         };
 
                                         ?>
-                                    <tfoot>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Name</th>
-                                            <th>E-Mail</th>
-                                            <th>Role</th>
-                                            <th>Switch Role</th>
-                                        </tr>
-                                    </tfoot>
                                     
                                 </table>
                             </div>

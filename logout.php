@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION["auth_user"])){
+if(isset($_SESSION["auth_admin"])){
     session_destroy();
     header("location:login.php");
 } else{
